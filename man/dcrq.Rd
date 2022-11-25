@@ -78,7 +78,8 @@ id = as.numeric(unlist(apply(cbind(1:cluster,m),1,function(a) rep(a[1],a[2]))))
 n=sum(m)
 x1 = rnorm(n); x2 = rbinom(n,1,0.5); x = cbind(x1,x2)
 T = exp(2 + x1 + x2 + rnorm(n))
-L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); L=exp(L); R=exp(R)
+L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); 
+L=exp(L); R=exp(R)
 Y=pmin(R,pmax(T,L))
 delta=case_when(T<L ~ 3, T>R ~ 2, TRUE ~ 1) #observed
 tau=0.3
@@ -88,7 +89,7 @@ dcrq(L,R,T,delta,x,tau)
 \references{
 Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 
-Kim, Y., Choi, T., Pak, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
+Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
 
 Pan, C. (2021). PICBayes: Bayesian Models for Partly Interval-Censored Data. R package. https://CRAN.R-project.org/package=PICBayes.
 }

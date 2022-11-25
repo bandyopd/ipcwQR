@@ -34,7 +34,7 @@ NULL
 #' @references
 #' Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 #' 
-#' Kim, Y., Choi, T., Pak, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
+#' Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
 #' 
 #' Pan, C. (2021). PICBayes: Bayesian Models for Partly Interval-Censored Data. R package. https://CRAN.R-project.org/package=PICBayes.
 #'
@@ -54,7 +54,8 @@ NULL
 #' n=sum(m)
 #' x1 = rnorm(n); x2 = rbinom(n,1,0.5); x = cbind(x1,x2)
 #' T = exp(2 + x1 + x2 + rnorm(n))
-#' L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); L=exp(L); R=exp(R)
+#' L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); 
+#' L=exp(L); R=exp(R)
 #' Y=pmin(R,pmax(T,L))
 #' delta=case_when(T<L ~ 3, T>R ~ 2, TRUE ~ 1) #observed
 #' tau=0.3
@@ -82,8 +83,8 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
     
     for (i in 1:n) {
       if(delta[i]==1){
-        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i])$y
-        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i])$y
+        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i], method = "linear", ties = mean)$y
+        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i], method = "linear", ties = mean)$y
         ww[i] = 1/pmax( sr-sl, 1e-3)
       }
     }
@@ -126,8 +127,8 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
     
     for (i in 1:n) {
       if(delta[i]==1){
-        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i])$y
-        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i])$y
+        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i], method = "linear", ties = mean)$y
+        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i], method = "linear", ties = mean)$y
         ww[i] = 1/pmax( sl, 0.5)
       }
     }
@@ -137,7 +138,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   
   Rwtfunc=function(L,R,T,delta){
     
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L)); Y=log(Y)
     n=length(Y);
     kml = survfit(Surv(-Y,delta==3)~1)
     kmr = survfit(Surv(Y,delta==2)~1)
@@ -146,8 +147,8 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
     
     for (i in 1:n) {
       if(delta[i]==1){
-        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i])$y
-        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i])$y
+        sl = approx( c(0, -kml$time, 100), c(1,1-kml$surv,0), xout=Y[i], method = "linear", ties = mean)$y
+        sr = approx( c(0, kmr$time, 100), c(1, kmr$surv, 0), xout=Y[i], method = "linear", ties = mean)$y
         ww[i] = 1/pmax( sr, 1e-3)
       }
     }
@@ -157,7 +158,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   
   # eta=1
   DCrq=function(L,R,T,delta,x,tau,eta){
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L));  Y=log(Y)
     n=length(Y);
     ww=wtfunc(L,R,T,delta)
     quantreg::rq((Y)~x, weights = ww*eta, tau = tau)$coef #intc, beta1, beta2
@@ -165,19 +166,19 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   
   # Sigma=diag(p)/n; beta=rep(1,3)
   Efunc=function(L,R,T,delta,x,Sigma,beta,tau,ww){
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L)); Y=log(Y)
     n=length(Y);
     xx = as.matrix(cbind(1,x)); p = ncol(xx)
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
     Phi = as.vector( pnorm( -res/ss ) * ww )
     U = as.vector( t(xx)%*%(Phi - tau) )
-    U/sqrt((length(Y)))
+    U/(sqrt(n))
   }
   
   
   DREfunc=function(L,R,T,delta,x,Sigma,beta,tau,ww,wl,wr){
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L));  Y=log(Y)
     n=length(Y); nr=table(delta)[2]; nl=table(delta)[3];
     xx = as.matrix(cbind(1,x)); p = ncol(xx)
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
@@ -201,23 +202,23 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
         UL=UL+((Lft/denoml))
       }
     }
-    (U-(UR/nr)+(UL/nl))/sqrt((length(Y)))
+    (U-(UR)+(UL))/(sqrt(n))
   }
   
   Afunc=function(L,R,T,delta,x,Sigma,beta,ww){
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L));  Y=log(Y)
     n=length(Y);
     xx = as.matrix(cbind(1,x)); p = ncol(xx)
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
     phi = as.vector( dnorm( -res/ss )* (ww/ss) )
     A = t(phi * xx) %*% xx + diag(p)*0.05
-    A
+    A*(sqrt(n))
   }
   
   Gfunc=function(L,R,T,delta,x,Sigma,beta,tau,ww,eta){
     
-    Y=pmin(R,pmax(T,L))
+    Y=pmin(R,pmax(T,L));  Y=log(Y)
     n=length(Y);
     xx = as.matrix(cbind(1,x)); p = ncol(xx)
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
@@ -246,7 +247,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
         GammaL=GammaL+(Lft)%*%t(Lft)
       }
     }
-    (Gamma-GammaR+GammaL)/sqrt((length(Y)))
+    (Gamma-GammaR+GammaL)*(sqrt(n))
   }
   
   # update variance estimator
@@ -258,7 +259,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   }
   
   
-  Y=pmin(R,pmax(T,L))
+  Y=pmin(R,pmax(T,L));  Y=log(Y)
   n=length(Y);
   
   if(is.null(id)){eta=1}
@@ -267,19 +268,20 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   if(wttype=="param"){ww=wtfunc(L,R,T,delta);}
   if(wttype=="nonparam" && is.null(h)){print("h should be entered.")}
   if(wttype=="nonparam"){ww=Berwtfunc(L,R,delta,x,h);}
+  # wttype="param"; eta=1; maxit=100; tol=10
   xx = as.matrix(cbind(1,x)); p = ncol(xx)
   old_beta = init = beta = DCrq(L,R,T,delta,x,tau,eta)
   old_Sigma = Sigma = diag(p)/n
   
   
-  # wttype="param"; eta=1; max.iter=100; tol=10; tau=0.3
+  
   i=0; eps=1; max.iter=maxit; tol = tol;
   while (i<max.iter & eps >= tol ) {
   Amat = Afunc(L,R,T,x=x,beta=c(old_beta),ww=ww,Sigma = old_Sigma)
   
-  if(is.null(estimation)){new_beta = c(old_beta) - solve(Amat)%*%Efunc(L,R,T,delta,x=x,ww=ww,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/(n)}
+  if(is.null(estimation)){new_beta = c(old_beta) - solve(Amat)%*%Efunc(L,R,T,delta,x=x,ww=ww,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/n}
   else if(estimation=="dr"){wr=Rwtfunc(L,R,T,delta);wl=Lwtfunc(L,R,T,delta);
-  new_beta = c(old_beta) - solve(Amat)%*%DREfunc(L,R,T,delta,x=x,ww=ww,wl=wl,wr=wr,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/(n)}
+  new_beta = c(old_beta) - solve(Amat)%*%DREfunc(L,R,T,delta,x=x,ww=ww,wl=wl,wr=wr,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/n}
   Gamma = Gfunc(L,R,T,delta=delta,x=x,beta=c(old_beta),Sigma = old_Sigma,ww=ww, tau=tau,eta=eta)
   new_Sigma = up_Sigma(Y,Amat,Gamma)
   
@@ -302,6 +304,4 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   rownames(res)[1]="Intercept"
   round((res), 6)
 }
-
-
 

@@ -26,8 +26,6 @@ picrq(
 
 \item{delta}{censoring indicator, 1: observed; 0: interval-censored.}
 
-\item{x}{baseline covariates.}
-
 \item{tau}{quantile level.}
 
 \item{estimation}{estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.}
@@ -45,6 +43,8 @@ picrq(
 \item{tol}{tolerance of iteration for the log-rank estimator, default is 1e-3.}
 
 \item{T}{exactly observed time.}
+
+\item{X}{X matrix of baseline covariates.}
 }
 \value{
 \code{picrq} returns a data frame containing at least the following components:
@@ -65,56 +65,56 @@ see Kim et al., (2022+) for detailed method explanation.
 \examples{
 \dontrun{
 # Simulations
-# library(tidyverse)
 library(ipcwQR)
 set.seed(111)
-x1 = rnorm(n)
-x2 = rbinom(n,1,0.5)
+n = 200
+x1 = runif(n,-1,1)
+x2 = rbinom(n,1,0.43)
 x = cbind(x1,x2)
 T = 2 + x1 + x2 + rnorm(n)
-U = (1 - 0.25*x1)*runif(n, -6, 3.85)
-V = U + (1 - 0.5*x2)*runif(n, 6, 19.6)
+U = (1 - 0.25*x1)*runif(n, -6, 5)
+V = U + (1 - 0.1*x2)*runif(n, 6, 20)
 U = exp(dplyr::case_when(TRUE ~ T, T>V ~ V, T<U ~ -Inf))
 V = exp(dplyr::case_when(TRUE ~ T, T>V ~ Inf, T<U ~ U))
-delta = ifelse(U==V, 1, 0); tau=0.3
-picrq(V,U,delta,x,tau)
-picrq(V,U,delta,x,tau,estimation = "dr")
+delta = ifelse(U==V, 1, 0)
+tau=0.3
+picrq(L=V,R=U,delta=delta,x=x,tau=tau)
+picrq(L=V,R=U,delta=delta,x=x,tau=tau,estimation = "dr")
 
 
 # Data example
-library(PICBayes)
 library(ipcwQR)
-data(mCRC)
-d=data.frame(mCRC)
-y=d$y; U = ifelse(y==0,R,L); V = ifelse(y==2,L,R)
-delta = case_when(d$IC == 0 ~ 1, d$IC == 1 ~ 0)
-x1= case_when(d$TRT_C == 0 ~ 0, d$TRT_C == 1 ~ 1)
-x2= case_when(d$KRAS_C == 0 ~ 1, d$KRAS_C == 1 ~ 0)
-x = cbind(x1,x2);  
-id = rep(c(table(d$SITE)),c(table(d$SITE))); tau=0.3
-picrq(V,U,delta,x,tau)
-picrq(V,U,delta,x,tau,wttype = "nonparam",h=0.9)
-picrq(V,U,delta,x,tau,wttype = "nonparam",id=id,h=0.9)
-
-
-d = with(dt0,
-         data.frame(U = ifelse(is.na(L), 0, L),
-                    V = ifelse(is.na(R), Inf, R),
-                    Delta = 1-IC,
-                    x1 = TRT_C,
-                    x2 = KRAS_C,
-                    id = SITE))
-U = d$U; V = d$V; X = cbind(d$x1,d$x2); Delta = d$Delta; id = d$id
-aft_rank(U = U, V = V, X = X, Delta = Delta, id = id, 
-         alpha = 1, type = "gehan", nboot = 10)
-aft_rank(U = U, V = V, X = X, Delta = Delta, id = id, 
-         alpha = 1, type = "logrank", nboot = 10)
+library(PICBayes)
+data("mCRC")
+d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
+                                      R = as.numeric(R),
+                                      U = ifelse(y==0,R,L),
+                                      V = ifelse(y==2,L,R),
+                                      # Cluster weighted data
+                                      id=(rep(c(table(SITE)),c(table(SITE)))),
+                                      # Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.
+                                      x1= case_when(TRT_C == 0 ~ 0, #Pan et al data
+                                                    TRT_C == 1 ~ 1),
+                                      # Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.
+                                      x2= case_when(KRAS_C == 0 ~ 1,
+                                                    KRAS_C == 1 ~ 0),
+                                      site = as.numeric(SITE),
+                                      y = as.numeric(y),
+                                      delta = case_when(IC == 0 ~ 1,
+                                                        IC == 1 ~ 0)
+));
+L=d$U;R=d$V; delta=d$delta
+x = cbind(d$x1,d$x2); tau=0.3
+picrq(d$U,d$V,d$delta,x=x,tau=tau)
+picrq(d$U,d$V,d$delta,x=x,tau=tau, estimation = "dr")
+picrq(d$U,d$V,d$delta,x=x,tau=tau,wttype = "nonparam",h=0.9)
+picrq(d$U,d$V,d$delta,x=x,tau=tau,wttype = "nonparam",id=d$id,h=0.9)
 }
 }
 \references{
 Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 
-Kim, Y., Choi, T., Pak, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
+Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
 
 Pan, C. (2021). PICBayes: Bayesian Models for Partly Interval-Censored Data. R package. https://CRAN.R-project.org/package=PICBayes.
 }
