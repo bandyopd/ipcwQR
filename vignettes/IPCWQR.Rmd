@@ -142,7 +142,7 @@ DCdata = function(n, case=case){
   T = 1.7+x1+x2+err*(1-0.1*x2)
   L=runif(n,-2.8,l); R=L+runif(n,4.2,r)
   Y=pmin(R,pmax(T,L))
-  
+
   delta=case_when(
     T<L ~ 3,
     T>R ~ 2,
@@ -156,8 +156,9 @@ n=200; case="norm85"; tau=0.3
 d=DCdata(n=n,case = case)
 x=with(d, cbind(x1,x2))
 L=d$L; R=d$R; T=d$T; delta=d$delta; x=with(d, cbind(x1,x2))
-dcrq(L,R,T,delta,x,tau)
-dcrq(L,R,T,delta,x,tau,estimation = "dr")
+ipcwQR::dcrq(L,R,T,delta,x,tau)
+ipcwQR::dcrq(L,R,T,delta,x,tau,estimation = "dr")
+ipcwQR::dcrq(L,R,T,delta,x,tau,wttype = "nonparam", hlimit = 0.9)
 ```
 
 
@@ -189,10 +190,10 @@ L=d$U;R=d$V; delta=d$delta
 L=(log(d$U));R=log(d$V); delta=d$delta
 x = cbind(d$x1,d$x2); id=d$id;  tau=0.3;
 
-picrq(L,R,delta,x=x,tau=tau)
-picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
-picrq(L,R,delta,x=x,tau=tau,id=id,h=0.9,k=2)
-picrq(L,R,delta,x=x,tau=tau,id=NULL,h=0.9)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9,k=2)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=NULL,hlimit=0.9)
 ```
 
 

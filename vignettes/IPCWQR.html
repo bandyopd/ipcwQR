@@ -365,35 +365,8 @@ also be viewed as a special case of partly interval-censoring, i.e.,
 <h2>Usages</h2>
 <p>Installation of ipcwQR package can be done by</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo=</span><span class="st">&quot;YejiStat/ipcwQR&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Downloading GitHub repo YejiStat/ipcwQR@HEAD</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   checking <span class="cf">for</span> file ‘<span class="sc">/</span>private<span class="sc">/</span>var<span class="sc">/</span>folders<span class="sc">/</span>kw<span class="sc">/</span>cjk_j16d44bb_tmtfr_dpqk40000gp<span class="sc">/</span>T<span class="sc">/</span>RtmpO5WPEy<span class="sc">/</span>remotes44d73d2f736c<span class="sc">/</span>YejiStat<span class="sc">-</span>ipcwQR<span class="sc">-</span>2c2a1f2<span class="sc">/</span>DESCRIPTION’ ...</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>✔  checking <span class="cf">for</span> file ‘<span class="sc">/</span>private<span class="sc">/</span>var<span class="sc">/</span>folders<span class="sc">/</span>kw<span class="sc">/</span>cjk_j16d44bb_tmtfr_dpqk40000gp<span class="sc">/</span>T<span class="sc">/</span>RtmpO5WPEy<span class="sc">/</span>remotes44d73d2f736c<span class="sc">/</span>YejiStat<span class="sc">-</span>ipcwQR<span class="sc">-</span>2c2a1f2<span class="sc">/</span>DESCRIPTION’</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>─  preparing ‘ipcwQR’<span class="sc">:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   checking DESCRIPTION meta<span class="sc">-</span>information ...</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>✔  checking DESCRIPTION meta<span class="sc">-</span>information</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>─  checking <span class="cf">for</span> LF line<span class="sc">-</span>endings <span class="cf">in</span> source and make files and shell scripts</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>─  checking <span class="cf">for</span> empty or unneeded directories</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>─  building ‘ipcwQR_0.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">9000.</span>tar.gz’</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in i.p(...): installation of package &#39;/var/folders/kw/</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cjk_j16d44bb_tmtfr_dpqk40000gp/T//RtmpO5WPEy/file44d77642d6d5/</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ipcwQR_0.0.0.9000.tar.gz&#39; had non-zero exit status</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Skipping install of &#39;ipcwQR&#39; from a github remote, the SHA1 (6856f6af) has not changed since last install.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span></code></pre></div>
 <p>or</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">require</span>(<span class="st">&quot;ipcwQR&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: ipcwQR</span></span></code></pre></div>
@@ -470,15 +443,23 @@ al. (2022+).</p>
 <span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></span>
 <span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">with</span>(d, <span class="fu">cbind</span>(x1,x2))</span>
 <span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(<span class="at">L=</span>d<span class="sc">$</span>L,<span class="at">R=</span>d<span class="sc">$</span>R,<span class="at">delta=</span>d<span class="sc">$</span>delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau)</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.444219 0.172798  0e+00 1.105534 1.782904</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.039211 0.124371  0e+00 0.795444 1.282979</span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     0.925415 0.225434  2e-05 0.483565 1.367264</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(<span class="at">L=</span>d<span class="sc">$</span>L,<span class="at">R=</span>d<span class="sc">$</span>R,<span class="at">delta=</span>d<span class="sc">$</span>delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.444172 0.172807  0e+00 1.105470 1.782873</span></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.039211 0.124377  0e+00 0.795433 1.282989</span></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     0.925415 0.225443  2e-05 0.483545 1.367284</span></span></code></pre></div>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: Lmoments</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: distillery</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;extRemes&#39;</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     qqnorm, qqplot</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.111986 0.173216  0e+00 0.772482 1.451490</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.050465 0.144674  0e+00 0.766903 1.334027</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.095797 0.227729  1e-06 0.649448 1.542147</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(<span class="at">L=</span>d<span class="sc">$</span>L,<span class="at">R=</span>d<span class="sc">$</span>R,<span class="at">delta=</span>d<span class="sc">$</span>delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.111946 0.173225  0e+00 0.772424 1.451468</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.050472 0.144680  0e+00 0.766899 1.334046</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.095802 0.227739  1e-06 0.649434 1.542170</span></span></code></pre></div>
 <p>We posit two estimating methods, ipcw method and doubly robust ipcw
 method, which can be conducted by specifying estimation = NULL and
 estimation = “dr”, respectively.</p>
@@ -506,16 +487,21 @@ estimation = “dr”, respectively.</p>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">DCdata</span>(<span class="at">n=</span>n,<span class="at">case =</span> case)</span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">with</span>(d, <span class="fu">cbind</span>(x1,x2))</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span>d<span class="sc">$</span>L; R<span class="ot">=</span>d<span class="sc">$</span>R; T<span class="ot">=</span>d<span class="sc">$</span>T; delta<span class="ot">=</span>d<span class="sc">$</span>delta; x<span class="ot">=</span><span class="fu">with</span>(d, <span class="fu">cbind</span>(x1,x2))</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">dcrq</span>(L,R,T,delta,x,tau)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.232325 0.241320  0e+00 0.759338 1.705312</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     0.774301 0.145372  0e+00 0.489373 1.059230</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.240393 0.276294  4e-06 0.698856 1.781929</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">dcrq</span>(L,R,T,delta,x,tau,<span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.227054 0.242834  0e+00 0.751099 1.703008</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     0.774745 0.146693  0e+00 0.487228 1.062263</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.239997 0.278410  4e-06 0.694314 1.785680</span></span></code></pre></div>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">dcrq</span>(L,R,T,delta,x,tau)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se  pvalue lower bd upper bd</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.164773 0.244870 1.0e-06 0.684828 1.644718</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.023160 0.164120 0.0e+00 0.701486 1.344834</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.097302 0.276329 3.6e-05 0.555697 1.638907</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">dcrq</span>(L,R,T,delta,x,tau,<span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se  pvalue lower bd upper bd</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.159969 0.245581 1.0e-06 0.678629 1.641308</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.020526 0.165863 0.0e+00 0.695435 1.345617</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.093302 0.277458 4.1e-05 0.549484 1.637120</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">dcrq</span>(L,R,T,delta,x,tau,<span class="at">wttype =</span> <span class="st">&quot;nonparam&quot;</span>, <span class="at">hlimit =</span> <span class="fl">0.9</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se  pvalue lower bd upper bd</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.176899 0.245469 1.0e-06 0.695780 1.658019</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.041493 0.164924 0.0e+00 0.718241 1.364745</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     1.079804 0.276163 4.6e-05 0.538525 1.621083</span></span></code></pre></div>
 <p>Next, we give illustrative example of the method for the multivariate
 clustered data, by using phase 3 metastatic colorectal cancer clinical
 trial. This dataset is available data(mCRC) in PICBayes package (Pan,
@@ -536,49 +522,54 @@ trial. This dataset is available data(mCRC) in PICBayes package (Pan,
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ## Support provided by the U.S. National Science Foundation</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ## (Grants SES-0350646 and SES-0350613)</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ##</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mCRC&quot;</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="fu">with</span>(<span class="fu">data.frame</span>(mCRC), <span class="fu">data.frame</span>(<span class="at">L =</span> <span class="fu">as.numeric</span>(L),</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">R =</span> <span class="fu">as.numeric</span>(R),</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">U =</span> <span class="fu">ifelse</span>(y<span class="sc">==</span><span class="dv">0</span>,R,L),</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">V =</span> <span class="fu">ifelse</span>(y<span class="sc">==</span><span class="dv">2</span>,L,R),</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Cluster weighted data</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">id=</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">table</span>(SITE)),<span class="fu">c</span>(<span class="fu">table</span>(SITE)))),</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">x1=</span> <span class="fu">case_when</span>(TRT_C <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="co">#Pan et al data</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                                                    TRT_C <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">x2=</span> <span class="fu">case_when</span>(KRAS_C <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                                                    KRAS_C <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>),</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">site =</span> <span class="fu">as.numeric</span>(SITE),</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">y =</span> <span class="fu">as.numeric</span>(y),</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">delta =</span> <span class="fu">case_when</span>(IC <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>                                                        IC <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>)</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>));</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span>d<span class="sc">$</span>U;R<span class="ot">=</span>d<span class="sc">$</span>V; delta<span class="ot">=</span>d<span class="sc">$</span>delta</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span>(<span class="fu">log</span>(d<span class="sc">$</span>U));R<span class="ot">=</span><span class="fu">log</span>(d<span class="sc">$</span>V); delta<span class="ot">=</span>d<span class="sc">$</span>delta</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">cbind</span>(d<span class="sc">$</span>x1,d<span class="sc">$</span>x2); id<span class="ot">=</span>d<span class="sc">$</span>id;  tau<span class="ot">=</span><span class="fl">0.3</span>;</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau)</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se   pvalue  lower bd upper bd</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288892 0.535586 0.000000  3.239142 5.338641</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552113 0.396438 -0.937169 1.227113</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425358 0.599873 0.239137 -0.750392 1.601109</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau, <span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;MCMCpack&#39;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:extRemes&#39;:</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     BayesFactor</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;mCRC&quot;</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="fu">with</span>(<span class="fu">data.frame</span>(mCRC), <span class="fu">data.frame</span>(<span class="at">L =</span> <span class="fu">as.numeric</span>(L),</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">R =</span> <span class="fu">as.numeric</span>(R),</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">U =</span> <span class="fu">ifelse</span>(y<span class="sc">==</span><span class="dv">0</span>,R,L),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">V =</span> <span class="fu">ifelse</span>(y<span class="sc">==</span><span class="dv">2</span>,L,R),</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Cluster weighted data</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">id=</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">table</span>(SITE)),<span class="fu">c</span>(<span class="fu">table</span>(SITE)))),</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">x1=</span> <span class="fu">case_when</span>(TRT_C <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="co">#Pan et al data</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                                                    TRT_C <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">x2=</span> <span class="fu">case_when</span>(KRAS_C <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>                                                    KRAS_C <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>),</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">site =</span> <span class="fu">as.numeric</span>(SITE),</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">y =</span> <span class="fu">as.numeric</span>(y),</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">delta =</span> <span class="fu">case_when</span>(IC <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>                                                        IC <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="dv">0</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>));</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span>d<span class="sc">$</span>U;R<span class="ot">=</span>d<span class="sc">$</span>V; delta<span class="ot">=</span>d<span class="sc">$</span>delta</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span>(<span class="fu">log</span>(d<span class="sc">$</span>U));R<span class="ot">=</span><span class="fu">log</span>(d<span class="sc">$</span>V); delta<span class="ot">=</span>d<span class="sc">$</span>delta</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">cbind</span>(d<span class="sc">$</span>x1,d<span class="sc">$</span>x2); id<span class="ot">=</span>d<span class="sc">$</span>id;  tau<span class="ot">=</span><span class="fl">0.3</span>;</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau)</span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se   pvalue  lower bd upper bd</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288876 0.535590 0.000000  3.239119 5.338632</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552116 0.396439 -0.937174 1.227118</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425369 0.599876 0.239133 -0.750388 1.601127</span></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">id=</span>id,<span class="at">h=</span><span class="fl">0.9</span>,<span class="at">k=</span><span class="dv">2</span>)</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.334544 0.012620      0 4.309808 4.359280</span></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.093215 0.013290      0 0.067166 0.119263</span></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.417785 0.014393      0 0.389575 0.445994</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">id=</span><span class="cn">NULL</span>,<span class="at">h=</span><span class="fl">0.9</span>)</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se   pvalue  lower bd upper bd</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288892 0.535586 0.000000  3.239142 5.338641</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552113 0.396438 -0.937169 1.227113</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425358 0.599873 0.239137 -0.750392 1.601109</span></span></code></pre></div>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288892 0.535586 0.000000  3.239142 5.338641</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552113 0.396438 -0.937169 1.227113</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425358 0.599873 0.239137 -0.750392 1.601109</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau, <span class="at">estimation =</span> <span class="st">&quot;dr&quot;</span>)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se   pvalue  lower bd upper bd</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288876 0.535590 0.000000  3.239119 5.338632</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552116 0.396439 -0.937174 1.227118</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425369 0.599876 0.239133 -0.750388 1.601127</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">id=</span>id,<span class="at">hlimit=</span><span class="fl">0.9</span>,<span class="at">k=</span><span class="dv">2</span>)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se pvalue lower bd upper bd</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.334544 0.012620      0 4.309808 4.359280</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.093215 0.013290      0 0.067166 0.119263</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.417785 0.014393      0 0.389575 0.445994</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>ipcwQR<span class="sc">::</span><span class="fu">picrq</span>(L,R,delta,<span class="at">x=</span>x,<span class="at">tau=</span>tau,<span class="at">id=</span><span class="cn">NULL</span>,<span class="at">hlimit=</span><span class="fl">0.9</span>)</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           tau coefficients       se   pvalue  lower bd upper bd</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     4.288892 0.535586 0.000000  3.239142 5.338641</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         0.3     0.144972 0.552113 0.396438 -0.937169 1.227113</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         0.3     0.425358 0.599873 0.239137 -0.750392 1.601109</span></span></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
