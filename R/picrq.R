@@ -42,7 +42,6 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Simulations
-#' library(ipcwQR)
 #' set.seed(111)
 #' n = 200
 #' x1 = runif(n,-1,1)
@@ -60,7 +59,6 @@ NULL
 #' 
 #' 
 #' # Data example
-#' library(ipcwQR)
 #' library(PICBayes)
 #' data("mCRC")
 #' d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
