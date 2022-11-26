@@ -35,7 +35,9 @@ dcrq(
 
 \item{estimation}{estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.}
 
-\item{wttype}{weight estimating method, default is "param".}
+\item{wttype}{weight estimating method, default is "param" and Beran's nonparametric KM estimating method as "nonparam".}
+
+\item{hlimit}{bandwidth value, default is 0.5.}
 
 \item{id}{cluster id. If the data does not have clustered structure, set \code{id=NULL}.}
 
@@ -44,8 +46,6 @@ dcrq(
 \item{maxit}{maximum number of iteration for the log-rank estimator, default is 100.}
 
 \item{tol}{tolerance of iteration for the log-rank estimator, default is 1e-3.}
-
-\item{h}{bandwidth value, default is 0.5.}
 }
 \value{
 \code{dcrq} returns a data frame containing at least the following components:
@@ -66,24 +66,19 @@ see Kim et al., (2022+) for detailed method explanation.
 \examples{
 \dontrun{
 # Simulations
-rm(list=ls())
-library(tidyverse)
-set.seed(111)
-cluster=60
-v=rlnorm(cluster,mean=0,sd=0.5)
-k = sample(0:9*10,cluster,replace = TRUE)
-m = ifelse(quantile(v, k/100) <= v & quantile(v, (k+10)/100) <= v,
-           k/10 + 2, 2)
-id = as.numeric(unlist(apply(cbind(1:cluster,m),1,function(a) rep(a[1],a[2]))))
-n=sum(m)
-x1 = rnorm(n); x2 = rbinom(n,1,0.5); x = cbind(x1,x2)
-T = exp(2 + x1 + x2 + rnorm(n))
-L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); 
-L=exp(L); R=exp(R)
+n=200; x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
+T = 1.7+x1+x2+rnorm(n)*(1-0.1*x2)
+L=runif(n,-2.8,1.9); R=L+runif(n,4.2,8.1)
 Y=pmin(R,pmax(T,L))
-delta=case_when(T<L ~ 3, T>R ~ 2, TRUE ~ 1) #observed
-tau=0.3
+delta=case_when(
+ T<L ~ 3,
+ T>R ~ 2,
+ TRUE ~ 1 #observed
+)
+L=L; R=R; T=T; delta=delta; x=cbind(x1,x2)
 dcrq(L,R,T,delta,x,tau)
+dcrq(L,R,T,delta,x,tau,estimation = "dr")
+dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
 }
 }
 \references{

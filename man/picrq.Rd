@@ -26,11 +26,15 @@ picrq(
 
 \item{delta}{censoring indicator, 1: observed; 0: interval-censored.}
 
+\item{x}{X matrix of baseline covariates.}
+
 \item{tau}{quantile level.}
 
 \item{estimation}{estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.}
 
 \item{wttype}{weight estimating method, default is "param".}
+
+\item{hlimit}{bandwidth value, default is 0.5.}
 
 \item{id}{cluster id. If the data does not have clustered structure, set \code{id=NULL}.}
 
@@ -41,14 +45,11 @@ picrq(
 \item{tol}{tolerance of iteration for the log-rank estimator, default is 1e-3.}
 
 \item{T}{exactly observed time.}
-
-\item{X}{X matrix of baseline covariates.}
-
-\item{h}{bandwidth value, default is 0.5.}
 }
 \value{
 \code{picrq} returns a data frame containing at least the following components:
 \itemize{
+\item \code{tau}: quantile level.
 \item \code{coefficients}: regression estimator.
 \item \code{se}: standard error estimates for \code{est}.
 \item \code{pvalue}: p-value.
@@ -84,9 +85,7 @@ picrq(L=V,R=U,delta=delta,x=x,tau=tau,estimation = "dr")
 # Data example
 library(PICBayes)
 data("mCRC")
-d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
-                                      R = as.numeric(R),
-                                      U = ifelse(y==0,R,L),
+d = with(data.frame(mCRC), data.frame(U = ifelse(y==0,R,L),
                                       V = ifelse(y==2,L,R),
                                       # Cluster weighted data
                                       id=(rep(c(table(SITE)),c(table(SITE)))),
@@ -96,17 +95,16 @@ d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
                                       # Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.
                                       x2= case_when(KRAS_C == 0 ~ 1,
                                                     KRAS_C == 1 ~ 0),
-                                      site = as.numeric(SITE),
-                                      y = as.numeric(y),
                                       delta = case_when(IC == 0 ~ 1,
                                                         IC == 1 ~ 0)
 ));
 L=d$U;R=d$V; delta=d$delta
-x = cbind(d$x1,d$x2); tau=0.3
-picrq(d$U,d$V,d$delta,x=x,tau=tau)
-picrq(d$U,d$V,d$delta,x=x,tau=tau, estimation = "dr")
-picrq(d$U,d$V,d$delta,x=x,tau=tau,wttype = "nonparam",h=0.9)
-picrq(d$U,d$V,d$delta,x=x,tau=tau,wttype = "nonparam",id=d$id,h=0.9)
+L=(log(d$U));R=log(d$V); delta=d$delta
+x = cbind(d$x1,d$x2); id=d$id;  tau=0.1;
+picrq(L,R,delta,x=x,tau=tau)
+picrq(L,R,delta,x=x,tau=tau,hlimit=0.9)
+picrq(L,R,delta,x=x,tau=tau,estimation = "dr")
+picrq(L,R,delta,x=x,tau=tau,id=id)
 }
 }
 \references{
