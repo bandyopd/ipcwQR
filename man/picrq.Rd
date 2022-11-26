@@ -65,7 +65,6 @@ see Kim et al., (2022+) for detailed method explanation.
 \examples{
 \dontrun{
 # Simulations
-library(ipcwQR)
 set.seed(111)
 n = 200
 x1 = runif(n,-1,1)
@@ -83,7 +82,6 @@ picrq(L=V,R=U,delta=delta,x=x,tau=tau,estimation = "dr")
 
 
 # Data example
-library(ipcwQR)
 library(PICBayes)
 data("mCRC")
 d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
