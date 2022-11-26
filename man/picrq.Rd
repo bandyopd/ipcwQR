@@ -12,7 +12,7 @@ picrq(
   tau,
   estimation = NULL,
   wttype = "param",
-  h = 0.5,
+  hlimit = 0.5,
   id = NULL,
   k = 1,
   maxit = 100,
@@ -32,8 +32,6 @@ picrq(
 
 \item{wttype}{weight estimating method, default is "param".}
 
-\item{h}{bandwidth value, default is 0.5.}
-
 \item{id}{cluster id. If the data does not have clustered structure, set \code{id=NULL}.}
 
 \item{k}{index of cluster weight.}
@@ -45,6 +43,8 @@ picrq(
 \item{T}{exactly observed time.}
 
 \item{X}{X matrix of baseline covariates.}
+
+\item{h}{bandwidth value, default is 0.5.}
 }
 \value{
 \code{picrq} returns a data frame containing at least the following components:

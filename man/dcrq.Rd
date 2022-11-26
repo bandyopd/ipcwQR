@@ -13,7 +13,7 @@ dcrq(
   tau,
   estimation = NULL,
   wttype = "param",
-  h = 0.5,
+  hlimit = 0.5,
   id = NULL,
   k = 1,
   maxit = 100,
@@ -37,8 +37,6 @@ dcrq(
 
 \item{wttype}{weight estimating method, default is "param".}
 
-\item{h}{bandwidth value, default is 0.5.}
-
 \item{id}{cluster id. If the data does not have clustered structure, set \code{id=NULL}.}
 
 \item{k}{index of cluster weight.}
@@ -46,6 +44,8 @@ dcrq(
 \item{maxit}{maximum number of iteration for the log-rank estimator, default is 100.}
 
 \item{tol}{tolerance of iteration for the log-rank estimator, default is 1e-3.}
+
+\item{h}{bandwidth value, default is 0.5.}
 }
 \value{
 \code{dcrq} returns a data frame containing at least the following components:
