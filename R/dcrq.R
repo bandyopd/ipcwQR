@@ -68,13 +68,12 @@ NULL
 
 
 # library(tidyverse)
-
-dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1,maxit=100,tol=1e-3){
+dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL,k=1,maxit=100,tol=1e-3){
   
   
   
   wtfunc=function(L,R,T,delta){
-    library(survival)
+    
     Y=pmin(R,pmax(T,L))
     n=length(Y);
     kml = survfit(Surv(-Y,delta==3)~1)
@@ -91,7 +90,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
     ww
   }
   
-  # h=0.9
+  # h=0.9;
   Berwtfunc = function(L,R,T,delta,x, h=NULL) {
     library(survival)
     Y=pmin(R,pmax(T,L)); y = Y;  n = length(Y)
@@ -138,7 +137,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
   
   Rwtfunc=function(L,R,T,delta){
     
-    Y=pmin(R,pmax(T,L)); Y=log(Y)
+    Y=pmin(R,pmax(T,L)); 
     n=length(Y);
     kml = survfit(Surv(-Y,delta==3)~1)
     kmr = survfit(Surv(Y,delta==2)~1)
@@ -155,37 +154,36 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
     ww
   }
   
-  
-  # eta=1
-  DCrq=function(L,R,T,delta,x,tau,eta){
-    Y=pmin(R,pmax(T,L));  Y=log(Y)
-    n=length(Y);
-    ww=wtfunc(L,R,T,delta)
+  DCrq=function(L,R,T,delta,x,ww,tau){
+    Y=pmin(R,pmax(T,L));
+    n=length(Y); 
     quantreg::rq((Y)~x, weights = ww*eta, tau = tau)$coef #intc, beta1, beta2
   }
   
   # Sigma=diag(p)/n; beta=rep(1,3)
   Efunc=function(L,R,T,delta,x,Sigma,beta,tau,ww){
-    Y=pmin(R,pmax(T,L)); Y=log(Y)
-    n=length(Y);
-    xx = as.matrix(cbind(1,x)); p = ncol(xx)
+    
+    Y=pmin(R,pmax(T,L)); n=length(Y); 
+    xx = as.matrix(cbind(1,x)); p=ncol(xx)
+    
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
     Phi = as.vector( pnorm( -res/ss ) * ww )
-    U = as.vector( t(xx)%*%(Phi - tau) )
-    U/(sqrt(n))
+    
+    U = as.vector( t(eta*xx)%*%(Phi - tau) )
+    U/n
   }
   
   
   DREfunc=function(L,R,T,delta,x,Sigma,beta,tau,ww,wl,wr){
-    Y=pmin(R,pmax(T,L));  Y=log(Y)
-    n=length(Y); nr=table(delta)[2]; nl=table(delta)[3];
-    xx = as.matrix(cbind(1,x)); p = ncol(xx)
+    Y=pmin(R,pmax(T,L));  nr=table(delta)[2]; nl=table(delta)[3]; n=length(Y); 
+    xx = as.matrix(cbind(1,x)); p=ncol(xx)
+    
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
     ind = ifelse(res<=0,1,0)
     wp=ww*pnorm( -(res/ss) )
-    U = as.vector( t(xx)%*%(as.numeric(wp-tau)) )
+    U = as.vector( t(xx*eta)%*%(as.numeric(wp-tau)) )
     UR=matrix(0,p,1); UL=matrix(0,p,1);
     
     for(i in 1:n){
@@ -202,101 +200,109 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",h=0.5,id=NULL,k=1
         UL=UL+((Lft/denoml))
       }
     }
-    (U-(UR)+(UL))/(sqrt(n))
+    (U-(UR/nr)+(UL/nl))/(n)
   }
+  
   
   Afunc=function(L,R,T,delta,x,Sigma,beta,ww){
-    Y=pmin(R,pmax(T,L));  Y=log(Y)
-    n=length(Y);
-    xx = as.matrix(cbind(1,x)); p = ncol(xx)
+    Y=pmin(R,pmax(T,L)); n=length(Y); 
+    xx = as.matrix(cbind(1,x)); p=ncol(xx)
+    
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
-    phi = as.vector( dnorm( -res/ss )* (ww/ss) )
-    A = t(phi * xx) %*% xx + diag(p)*0.05
-    A*(sqrt(n))
+    Phi = as.vector( pnorm( -res/ss ) * ww )
+    A = t(Phi * xx *eta ) %*% xx + diag(p)*0.05
+    A/n
   }
   
-  Gfunc=function(L,R,T,delta,x,Sigma,beta,tau,ww,eta){
+  
+  Gfunc=function(L,R,T,delta,x,Sigma,beta,tau,ww){
     
-    Y=pmin(R,pmax(T,L));  Y=log(Y)
-    n=length(Y);
-    xx = as.matrix(cbind(1,x)); p = ncol(xx)
+    Y=pmin(R,pmax(T,L)); n=length(Y); 
+    xx = as.matrix(cbind(1,x)); p=ncol(xx)
+    
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
     ind = ifelse(res<=0,1,0)
     resind = ww*ind
     
     Gam=xx*as.numeric(resind-tau)
-    Gamma=( t(eta*Gam)%*%(Gam) )
+    Gamma=( t(Gam)%*%(Gam*eta) )
     GammaR=matrix(0,p,p)
     GammaL=matrix(0,p,p)
     
     for(i in 1:n){
       if(delta[i]==2){
         yindr=Y>=Y[i]
+        
         denom=sum(yindr)
-        nom=as.vector( t(xx)%*% (yindr*resind) )
-        Rft = nom/denom
-        GammaR=GammaR+(Rft)%*%t(Rft)
+        nom1=as.vector( t(xx*eta)%*% (yindr*resind) )
+        nom2=as.vector( t(xx)%*% (yindr*resind) )
+        
+        Rft1 = nom1/denom
+        Rft2 = nom2/denom
+        GammaR=GammaR+(Rft1)%*%t(Rft2)
       }
       if(delta[i]==3){
         yindl=Y<=Y[i]
+        
         denom=sum((1-yindl))+1
-        nom=as.vector( t(xx)%*% ((1-yindl)*resind) )
-        Lft = nom/denom
-        GammaL=GammaL+(Lft)%*%t(Lft)
+        nom1=as.vector( t(xx*eta)%*% ((1-yindl)*resind) )
+        nom2=as.vector( t(xx)%*% ((1-yindl)*resind) )
+        
+        Lft1 = nom1/denom
+        Lft2 = nom2/denom
+        GammaL=GammaL+(Lft1)%*%t(Lft2)
       }
     }
-    (Gamma-GammaR+GammaL)*(sqrt(n))
+    (Gamma-GammaR+GammaL)/n
   }
+  
   
   # update variance estimator
   up_Sigma = function(Y,Afunc,Gfunc){
     n=length(Y)
     invA = solve(Afunc)
     newSigma = (( (invA) %*% Gfunc %*% (invA) ) )
-    newSigma
+    newSigma/n
   }
   
   
-  Y=pmin(R,pmax(T,L));  Y=log(Y)
-  n=length(Y);
-  
+  Y=pmin(R,pmax(T,L)); n=length(Y);  delta=d$delta
   if(is.null(id)){eta=1}
-  else{ci=rep(c(table(id)),c(table(id))); eta=(1/(ci^(k)))}
+  else{ci=rep(c(table(id)),c(table(id))); wi=(1/ci); eta=(wi^k)}
   
   if(wttype=="param"){ww=wtfunc(L,R,T,delta);}
   if(wttype=="nonparam" && is.null(h)){print("h should be entered.")}
-  if(wttype=="nonparam"){ww=Berwtfunc(L,R,delta,x,h);}
-  # wttype="param"; eta=1; maxit=100; tol=10
-  xx = as.matrix(cbind(1,x)); p = ncol(xx)
-  old_beta = init = beta = DCrq(L,R,T,delta,x,tau,eta)
+  if(wttype=="nonparam"){ww=Berwtfunc(L,R,T,delta,x,hlimit);}
+  xx = as.matrix(cbind(1,x)); p=ncol(xx)
+  old_beta = init = beta = DCrq(L,R,T,delta,x,ww,tau=tau)
   old_Sigma = Sigma = diag(p)/n
   
   
-  
-  i=0; eps=1; max.iter=maxit; tol = tol;
+  i=0; eps=1; max.iter=100; tol = 1e-3; 
   while (i<max.iter & eps >= tol ) {
-  Amat = Afunc(L,R,T,x=x,beta=c(old_beta),ww=ww,Sigma = old_Sigma)
-  
-  if(is.null(estimation)){new_beta = c(old_beta) - solve(Amat)%*%Efunc(L,R,T,delta,x=x,ww=ww,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/n}
-  else if(estimation=="dr"){wr=Rwtfunc(L,R,T,delta);wl=Lwtfunc(L,R,T,delta);
-  new_beta = c(old_beta) - solve(Amat)%*%DREfunc(L,R,T,delta,x=x,ww=ww,wl=wl,wr=wr,beta=c(old_beta),Sigma = old_Sigma,tau=tau)/n}
-  Gamma = Gfunc(L,R,T,delta=delta,x=x,beta=c(old_beta),Sigma = old_Sigma,ww=ww, tau=tau,eta=eta)
-  new_Sigma = up_Sigma(Y,Amat,Gamma)
-  
-  
-  if (det(new_Sigma) <= 0) {
-    new_beta = old_beta; new_Sigma = old_Sigma
-  }
-
+    Amat = Afunc(L,R,T,delta,x,beta=c(old_beta),ww=ww,Sigma = old_Sigma)
+    if(is.null(estimation)){
+      new_beta = c(old_beta) - solve(Amat)%*%Efunc(L,R,T,delta,x,ww=ww,beta=c(old_beta),Sigma = old_Sigma,tau)}
+    else if(estimation=="dr"){wr=Rwtfunc(L,R,T,delta);wl=Lwtfunc(L,R,T,delta);
+    new_beta = c(old_beta) - solve(Amat)%*%DREfunc(L,R,T,delta,x,ww=ww,wl=wl,wr=wr,beta=c(old_beta),Sigma = old_Sigma,tau)}
+    # new_beta = BB::dfsane(par=old_beta,fn=U_n,Y=Y,x=x,ww=ww,Sigma=old_Sigma,tau=tau,control=list(trace=FALSE))$par
+    Gamma = Gfunc(L,R,T,delta,x,beta=c(old_beta),Sigma = old_Sigma,ww=ww, tau=tau)
+    new_Sigma = up_Sigma(Y,Amat,Gamma)
+    
+    if (det(new_Sigma) <= 0) {
+      new_beta = old_beta; new_Sigma = old_Sigma
+    }
+    
     eps = max(max(abs(new_beta - old_beta)),
               max(abs(new_Sigma - old_Sigma)))
-    old_beta = new_beta; old_Sigma = new_Sigma;
+    old_beta = new_beta; old_Sigma = new_Sigma; 
     i = i+1
+    
   }
   se = sqrt(diag(new_Sigma))
-  res=data.frame(tau=c(tau,tau,tau),
+  res=data.frame(tau=c(rep(tau,p)),
                  est=new_beta,se=se,
                  pvalue = 1 - pnorm(abs(new_beta/se)),
                  lb = new_beta-1.96*se, ub = new_beta+1.96*se)
