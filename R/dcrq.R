@@ -12,8 +12,8 @@ NULL
 #' @param x baseline covariates.
 #' @param tau quantile level.
 #' @param estimation estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.
-#' @param wttype weight estimating method, default is "param".
-#' @param h bandwidth value, default is 0.5.
+#' @param wttype weight estimating method, default is "param" and Beran's nonparametric KM estimating method as "nonparam".
+#' @param hlimit bandwidth value, default is 0.5.
 #' @param id cluster id. If the data does not have clustered structure, set \code{id=NULL}.
 #' @param k index of cluster weight.
 #' @param maxit maximum number of iteration for the log-rank estimator, default is 100.
@@ -42,24 +42,19 @@ NULL
 #' @examples
 #' \dontrun{
 #' # Simulations
-#' rm(list=ls())
-#' library(tidyverse)
-#' set.seed(111)
-#' cluster=60
-#' v=rlnorm(cluster,mean=0,sd=0.5)
-#' k = sample(0:9*10,cluster,replace = TRUE)
-#' m = ifelse(quantile(v, k/100) <= v & quantile(v, (k+10)/100) <= v,
-#'            k/10 + 2, 2)
-#' id = as.numeric(unlist(apply(cbind(1:cluster,m),1,function(a) rep(a[1],a[2]))))
-#' n=sum(m)
-#' x1 = rnorm(n); x2 = rbinom(n,1,0.5); x = cbind(x1,x2)
-#' T = exp(2 + x1 + x2 + rnorm(n))
-#' L=runif(n,-2.8,1.7); R=L+runif(n,4.2,10); 
-#' L=exp(L); R=exp(R)
+#' n=200; x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
+#' T = 1.7+x1+x2+rnorm(n)*(1-0.1*x2)
+#' L=runif(n,-2.8,1.9); R=L+runif(n,4.2,8.1)
 #' Y=pmin(R,pmax(T,L))
-#' delta=case_when(T<L ~ 3, T>R ~ 2, TRUE ~ 1) #observed
-#' tau=0.3
-#' dcrq(L,R,T,delta,x,tau)
+#' delta=case_when(
+#'  T<L ~ 3,
+#'  T>R ~ 2,
+#'  TRUE ~ 1 #observed
+#')
+#'L=L; R=R; T=T; delta=delta; x=cbind(x1,x2)
+#'dcrq(L,R,T,delta,x,tau)
+#'dcrq(L,R,T,delta,x,tau,estimation = "dr")
+#'dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
 #' }
 #' @export
 #'
@@ -68,13 +63,15 @@ NULL
 
 
 # library(tidyverse)
+
 dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL,k=1,maxit=100,tol=1e-3){
   
   
+  library(tidyverse)
   library(survival)
+  library(extRemes)
   wtfunc=function(L,R,T,delta){
     
-    library(survival)
     Y=pmin(R,pmax(T,L))
     n=length(Y);
     kml = survfit(Surv(-Y,delta==3)~1)
@@ -312,34 +309,3 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
   round((res), 6)
 }
 
-
-DCdata = function(n, case=case){
-  if(case=="norm85"){err=rnorm(n); l=1.9; r=8.1
-  }else if(case=="norm75"){err=rnorm(n); l=2.7; r=6.2
-  }else if(case=="gum85"){err=revd(n);  l=2.3; r=11.5
-  }else if(case=="gum75"){err=revd(n); l=3.3; r=7.9
-  }
-  x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
-  T = 1.7+x1+x2+err*(1-0.1*x2)
-  L=runif(n,-2.8,l); R=L+runif(n,4.2,r)
-  Y=pmin(R,pmax(T,L))
-  
-  delta=case_when(
-    T<L ~ 3,
-    T>R ~ 2,
-    TRUE ~ 1 #observed
-  )
-  table(delta)/length(Y)
-  d=data.frame(Y=Y,L=L,R=R,T=T,delta=delta,x1=x1,x2=x2)
-  d[order(Y),]
-}
-
-n=c(200,400); case=c("norm85","norm75","gum85","gum75")
-est=se=NULL; B=100; nsim=1000; tau=c(0.3,0.5)[1]; j=1; k=1
-d=DCdata(n=n[j],case = case[k])
-L=d$L; R=d$R; T=d$T; delta=d$delta
-x=with(d, cbind(x1,x2))
-
-dcrq(L,R,T,delta,x,tau)
-dcrq(L,R,T,delta,x,tau,estimation = "dr")
-dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
