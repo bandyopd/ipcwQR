@@ -99,7 +99,7 @@ NULL
 picrq=function(L,R,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL,k=1,maxit=100,tol=1e-3){
   
   
-  
+  library(survival)
   wtfunc2=function(L,R,delta){
     
     Y=pmax(ifelse(delta==0,R,L),1e-8); n=length(Y)

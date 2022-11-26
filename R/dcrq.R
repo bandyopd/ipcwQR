@@ -71,9 +71,10 @@ NULL
 dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL,k=1,maxit=100,tol=1e-3){
   
   
-  
+  library(survival)
   wtfunc=function(L,R,T,delta){
     
+    library(survival)
     Y=pmin(R,pmax(T,L))
     n=length(Y);
     kml = survfit(Surv(-Y,delta==3)~1)
@@ -91,12 +92,12 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
   }
   
   # h=0.9;
-  Berwtfunc = function(L,R,T,delta,x, h=NULL) {
+  Berwtfunc = function(L,R,T,delta,x, hlimit=NULL) {
     library(survival)
     Y=pmin(R,pmax(T,L)); y = Y;  n = length(Y)
     kml = survfit(Surv(-Y,delta==3)~1)
     kmr = survfit(Surv(Y,delta==2)~1)
-    ker = dnorm(outer(x[,1],x[,1],"-")/h)
+    ker = dnorm(outer(x[,1],x[,1],"-")/hlimit)
     Wnj = ker / rowSums(ker)
     sr = sl = srl= rep(0,n)
     denomr = rowSums(outer(y,y,"<=")*(Wnj))
@@ -273,7 +274,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
   else{ci=rep(c(table(id)),c(table(id))); wi=(1/ci); eta=(wi^k)}
   
   if(wttype=="param"){ww=wtfunc(L,R,T,delta);}
-  if(wttype=="nonparam" && is.null(h)){print("h should be entered.")}
+  if(wttype=="nonparam" && is.null(hlimit)){print("hlimit should be entered.")}
   if(wttype=="nonparam"){ww=Berwtfunc(L,R,T,delta,x,hlimit);}
   xx = as.matrix(cbind(1,x)); p=ncol(xx)
   old_beta = init = beta = DCrq(L,R,T,delta,x,ww,tau=tau)
@@ -311,3 +312,34 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
   round((res), 6)
 }
 
+
+DCdata = function(n, case=case){
+  if(case=="norm85"){err=rnorm(n); l=1.9; r=8.1
+  }else if(case=="norm75"){err=rnorm(n); l=2.7; r=6.2
+  }else if(case=="gum85"){err=revd(n);  l=2.3; r=11.5
+  }else if(case=="gum75"){err=revd(n); l=3.3; r=7.9
+  }
+  x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
+  T = 1.7+x1+x2+err*(1-0.1*x2)
+  L=runif(n,-2.8,l); R=L+runif(n,4.2,r)
+  Y=pmin(R,pmax(T,L))
+  
+  delta=case_when(
+    T<L ~ 3,
+    T>R ~ 2,
+    TRUE ~ 1 #observed
+  )
+  table(delta)/length(Y)
+  d=data.frame(Y=Y,L=L,R=R,T=T,delta=delta,x1=x1,x2=x2)
+  d[order(Y),]
+}
+
+n=c(200,400); case=c("norm85","norm75","gum85","gum75")
+est=se=NULL; B=100; nsim=1000; tau=c(0.3,0.5)[1]; j=1; k=1
+d=DCdata(n=n[j],case = case[k])
+L=d$L; R=d$R; T=d$T; delta=d$delta
+x=with(d, cbind(x1,x2))
+
+dcrq(L,R,T,delta,x,tau)
+dcrq(L,R,T,delta,x,tau,estimation = "dr")
+dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
