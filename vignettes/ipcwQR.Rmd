@@ -71,7 +71,7 @@ see the detailed description from help(picrq()) and help(dcrq()).
 
 We first simulate univariate partly interval-censored data with normal random error, which is similar to PIC data simulation setting of Kim et al. (2022+).
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(ipcwQR)
 set.seed(111)
 n = 200
@@ -94,7 +94,7 @@ We posit two estimating methods, ipcw estimating method and doubly robust ipcw e
 
 Next, we simulate univariate doubly-censored data with normal random error, which is one of DC data simulation setting of Kim et al. (2022+).
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 n=200; tau=0.3
 x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
 T = 1.7+x1+x2+rnorm(n)*(1-0.1*x2)
@@ -114,7 +114,7 @@ ipcwQR::dcrq(L,R,T,delta,x,tau,wttype = "nonparam", hlimit = 0.9)
 
 Finally, we simulate multivariate doubly-censored data with normal random error, which is one of MVDC data simulation setting of Kim et al. (2022+).
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 cluster=60
 v=rlnorm(cluster,mean=0,sd=0.5)
 k = sample(0:9*10,cluster,replace = TRUE)
@@ -140,7 +140,7 @@ dcrq(L,R,T,delta,x,tau,id=id)
 
 Next, we apply our proposed method to the multivariate clustered data using a phase 3 metastatic colorectal cancer clinical trial. This dataset is accessible for data(mCRC) in the PICBayes R package (Pan, 2021).
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(PICBayes)
 
 data("mCRC")
