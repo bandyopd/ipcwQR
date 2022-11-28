@@ -32,7 +32,7 @@ picrq(
 
 \item{estimation}{estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.}
 
-\item{wttype}{weight estimating method, default is "param".}
+\item{wttype}{weight estimating method, default is "param" and Beran's nonparametric KM estimating method as "nonparam".}
 
 \item{hlimit}{bandwidth value, default is 0.5.}
 
@@ -43,8 +43,6 @@ picrq(
 \item{maxit}{maximum number of iteration for the log-rank estimator, default is 100.}
 
 \item{tol}{tolerance of iteration for the log-rank estimator, default is 1e-3.}
-
-\item{T}{exactly observed time.}
 }
 \value{
 \code{picrq} returns a data frame containing at least the following components:
@@ -108,6 +106,8 @@ picrq(L,R,delta,x=x,tau=tau,id=id)
 }
 }
 \references{
+Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+
 Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 
 Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.

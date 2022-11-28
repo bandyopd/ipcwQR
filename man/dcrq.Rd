@@ -29,7 +29,7 @@ dcrq(
 
 \item{delta}{censoring indicator, 1: observed; 0: interval-censored.}
 
-\item{x}{baseline covariates.}
+\item{x}{X matrix of baseline covariates.}
 
 \item{tau}{quantile level.}
 
@@ -50,6 +50,7 @@ dcrq(
 \value{
 \code{dcrq} returns a data frame containing at least the following components:
 \itemize{
+\item \code{tau}: quantile level.
 \item \code{coefficients}: regression estimator.
 \item \code{se}: standard error estimates for \code{est}.
 \item \code{pvalue}: p-value.
@@ -79,9 +80,12 @@ L=L; R=R; T=T; delta=delta; x=cbind(x1,x2)
 dcrq(L,R,T,delta,x,tau)
 dcrq(L,R,T,delta,x,tau,estimation = "dr")
 dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
+dcrq(L,R,T,delta,x,tau,wttype = "nonparam",hlimit = 0.9)
 }
 }
 \references{
+Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+
 Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 
 Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
