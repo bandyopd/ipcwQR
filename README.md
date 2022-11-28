@@ -20,3 +20,25 @@ Note that double-censoring  can also  be viewed as
 a special case of partly interval-censoring, 
 i.e., $T$ is left-censored if $L=0$ and right-censored if $R=\infty$. 
 
+
+
+
+
+
+
+
+## References
+
+* Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+
+* Chiou, S. H., Kang, S. and Yan, J. (2015). 
+Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach.
+Statistics in Medicine 34(9): 1495–-1510.
+
+* Pan, C. (2021). 
+PICBayes: Bayesian Models for Partly Interval-Censored Data. R package. 
+https://CRAN.R-project.org/package=PICBayes.
+
+* Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). 
+Inverse weighted quantile regression with partially interval-censored data.
+*Submitted to SMMR*.
