@@ -31,9 +31,7 @@ Vignettes is available in [here](http://htmlpreview.github.io/?https://github.co
 library(PICBayes)
 
 data("mCRC")
-d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
-                                      R = as.numeric(R),
-                                      U = ifelse(y==0,R,L),
+d = with(data.frame(mCRC), data.frame(U = ifelse(y==0,R,L),
                                       V = ifelse(y==2,L,R),
                                       # Cluster weighted data
                                       # Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.
