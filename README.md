@@ -2,7 +2,7 @@
 
 
 # Introduction
-`ipcwQR` is the R package to fit the linear quantile regressions when the data are partially interval-censored and possibly correlated within same cluster.
+`ipcwQR` is the R package to fit the linear quantile regressions with ipcw weights when the data are partially interval-censored and possibly correlated within same cluster.
 Let $T$ and $X$ be the event time of interest and its related $p$-vector of covariates, respectively.
 Our main objective is to estimate 
 the $p$-dimensional quantile coefficient vector ${\boldsymbol{\beta}}_0(\tau)$
