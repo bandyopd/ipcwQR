@@ -53,7 +53,7 @@ ipcwQR::picrq(L,R,delta,x=x,tau=tau)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
 # Cluster (adjusted)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9,k=2)
-ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=NULL,hlimit=0.9)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9)
 ```
 
 
