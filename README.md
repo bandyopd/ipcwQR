@@ -23,7 +23,7 @@ i.e., $T$ is left-censored if $L=0$ and right-censored if $R=\infty$.
 
 
 ## Description
-Vignettes is available in [here](https://github.com/YejiStat/ipcwQR/blob/main/vignettes/ipcwQR.html).
+Vignettes is available in [here](http://htmlpreview.github.io/?https://github.com/YejiStat/ipcwQR/blob/main/vignettes/ipcwQR.html).
 
 
 ## Usages 
