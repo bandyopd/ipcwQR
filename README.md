@@ -21,7 +21,8 @@ a special case of partly interval-censoring,
 i.e., $T$ is left-censored if $L=0$ and right-censored if $R=\infty$. 
 
 
-
+## Description
+Vignette is available to [the link](file:///Users/Summer/Downloads/ipcwQR.html).
 
 
 
