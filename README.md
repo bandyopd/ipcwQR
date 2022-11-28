@@ -12,7 +12,7 @@ in the following linear quantile regression model:
 $T_i = {\bf x}_i^T {\boldsymbol{\beta}}_0(\tau) + e_i(\tau),\quad i=1, \ldots ,n, $
 
 where $e_i(\tau)$ is the random error 
-whose $\tau$th quantile conditional on ${\textbold{ x}}_i$ equals 0. 
+whose $\tau$th quantile conditional on ${\bf x}_i$ equals 0. 
 When the data are subject to partially interval-censoring, 
 left and right endpoints of the censoring time, $L$ and $R$,
 are observed instead of $T$ such that $T\in(L,R)$.
