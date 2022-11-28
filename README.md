@@ -1,3 +1,3 @@
 # ipcwQR
 
-## Introduction to 'ipcwQR' package
+## Introduction to `ipcwQR` package
