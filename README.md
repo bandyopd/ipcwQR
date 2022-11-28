@@ -50,8 +50,10 @@ d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
 L=(log(d$U));R=log(d$V); delta=d$delta
 x = cbind(d$x1,d$x2); id=d$id;  tau=0.3;
 
+# Cluster (unadjusted)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
+# Cluster (adjusted)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9,k=2)
 ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=NULL,hlimit=0.9)
 ```
