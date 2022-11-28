@@ -1,0 +1,187 @@
+---
+title: "Introduction to ipcwQR package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to ipcwQR package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%",
+  fig.width = 7,
+  fig.height = 4,
+  fig.align = "center",
+  dpi = 150,
+  fig.path = "vignettes/ipcwQR-"
+)
+```
+
+
+## Introduction
+
+`ipcwQR` is the R package to fit the linear quantile regressions when the data are partially interval-censored and possibly correlated within same cluster.
+Let $T$ and $X$ be the event time of interest and its related $p$-vector of covariates, respectively.
+Our main objective is to estimate 
+the $p$-dimensional quantile coefficient vector ${\boldsymbol{\beta}}_0(\tau)$
+for some $\tau \in[\tau_L,\tau_R]\subset (0, 1)$ 
+in the following linear quantile regression model:
+$$
+T_i = {\bf x}_i^T {\boldsymbol{\beta}}_0(\tau) + e_i(\tau),\quad i=1, \ldots ,n, 
+$$
+where $e_i(\tau)$ is the random error 
+whose $\tau$th quantile conditional on ${\bf x}_i$ equals 0. 
+When the data are subject to partially interval-censoring, 
+left and right endpoints of the censoring time, $L$ and $R$,
+are observed instead of $T$ such that $T\in(L,R)$.
+Note that double-censoring  can also  be viewed as 
+a special case of partly interval-censoring, 
+i.e., $T$ is left-censored if $L=0$ and right-censored if $R=\infty$. 
+
+
+
+## Usages
+
+Installation of ipcwQR package can be done by
+
+
+```{r}
+devtools::install_github(repo="YejiStat/ipcwQR")
+```
+
+```{r}
+base::require("ipcwQR")
+```
+
+
+picrq() function has the following arguments:
+```{r}
+# picrq(L=L,R=R,delta=delta,x=x,tau=tau)
+```
+
+drq() function has the following arguments:
+```{r}
+# picrq(L=L,R=R,T=T,delta=delta,x=x,tau=tau)
+```
+
+see the detailed description from help(picrq()) and help(dcrq()).
+
+We first simulate univariate partly interval-censored data with normal random error, which is similar to PIC data simulation setting of Kim et al. (2022+).
+
+```{r}
+library(ipcwQR)
+set.seed(111)
+n = 200
+x1 = runif(n,-1,1)
+x2 = rbinom(n,1,0.43)
+x = cbind(x1,x2)
+T = 2 + x1 + x2 + rnorm(n)
+U = (1 - 0.25*x1)*runif(n, -6, 5)
+V = U + (1 - 0.1*x2)*runif(n, 6, 20)
+U = exp(dplyr::case_when(TRUE ~ T, T>V ~ V, T<U ~ -Inf))
+V = exp(dplyr::case_when(TRUE ~ T, T>V ~ Inf, T<U ~ U))
+delta = ifelse(U==V, 1, 0)
+tau=0.3
+ipcwQR::picrq(L=V,R=U,delta=delta,x=x,tau=tau)
+ipcwQR::picrq(L=V,R=U,delta=delta,x=x,tau=tau,estimation = "dr")
+```
+
+
+We posit two estimating methods, ipcw estimating method and doubly robust ipcw estimating method, which can be conducted by specifying estimation = NULL and estimation = "dr", respectively.
+
+Next, we simulate univariate doubly-censored data with normal random error, which is one of DC data simulation setting of Kim et al. (2022+).
+
+```{r}
+n=200; tau=0.3
+x1=runif(n,-1.2,1.7); x2=rbinom(n,1,0.6)
+T = 1.7+x1+x2+rnorm(n)*(1-0.1*x2)
+L=runif(n,-2.8,2); R=L+runif(n,4.2,8)
+x=cbind(x1,x2)
+delta=case_when(
+    T<L ~ 3,
+    T>R ~ 2,
+    TRUE ~ 1 #observed
+  )
+ipcwQR::dcrq(L,R,T,delta,x,tau)
+ipcwQR::dcrq(L,R,T,delta,x,tau,estimation = "dr")
+ipcwQR::dcrq(L,R,T,delta,x,tau,wttype = "nonparam", hlimit = 0.9)
+```
+
+
+
+Finally, we simulate multivariate doubly-censored data with normal random error, which is one of MVDC data simulation setting of Kim et al. (2022+).
+
+```{r}
+cluster=60
+v=rlnorm(cluster,mean=0,sd=0.5)
+k = sample(0:9*10,cluster,replace = TRUE)
+m = ifelse(quantile(v, k/100) <= v & quantile(v, (k+10)/100) <= v,
+             k/10 + 2, 2)
+id = as.numeric(unlist(apply(cbind(1:cluster,m),1,function(a) rep(a[1],a[2]))))
+vi = as.numeric(unlist(apply(cbind(v,m),1,function(a) rep(a[1],a[2]))))
+n=sum(m)
+x1=runif(n,-1.4,0.9); x2=rbinom(n,1,0.56)
+T = 2.3+x1+x2+rnorm(n)*x2*0.1+vi*rnorm(n)*0.85
+L=runif(n,-2.8,2); R=L+runif(n,4.2,9.7)
+x=cbind(x1,x2)
+delta=case_when(
+    T<L ~ 3,
+    T>R ~ 2,
+    TRUE ~ 1 #observed
+  )
+dcrq(L,R,T,delta,x,tau,id=NULL)
+dcrq(L,R,T,delta,x,tau,id=id)
+```
+
+
+
+Next, we give illustrative example of the method for the multivariate clustered data, by using phase 3 metastatic colorectal cancer clinical trial. This dataset is available data(mCRC) in PICBayes package (Pan, 2021).
+
+```{r}
+library(PICBayes)
+
+data("mCRC")
+d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
+                                      R = as.numeric(R),
+                                      U = ifelse(y==0,R,L),
+                                      V = ifelse(y==2,L,R),
+                                      # Cluster weighted data
+                                      # Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.
+                                      x1= case_when(TRT_C == 0 ~ 0, #Pan et al data
+                                                    TRT_C == 1 ~ 1),
+                                      # Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.
+                                      x2= case_when(KRAS_C == 0 ~ 1,
+                                                    KRAS_C == 1 ~ 0),
+                                      id = as.numeric(SITE),
+                                      y = as.numeric(y),
+                                      delta = case_when(IC == 0 ~ 1,
+                                                        IC == 1 ~ 0)
+));
+L=(log(d$U));R=log(d$V); delta=d$delta
+x = cbind(d$x1,d$x2); id=d$id;  tau=0.3;
+
+ipcwQR::picrq(L,R,delta,x=x,tau=tau)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9,k=2)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=NULL,hlimit=0.9)
+```
+
+
+## References
+
+* Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+
+* Chiou, S. H., Kang, S. and Yan, J. (2015). 
+Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach.
+Statistics in Medicine 34(9): 1495–-1510.
+
+* Pan, C. (2021). 
+PICBayes: Bayesian Models for Partly Interval-Censored Data. R package. 
+https://CRAN.R-project.org/package=PICBayes.
+
+* Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). 
+Inverse weighted quantile regression with partially interval-censored data.
+*Submitted to SMMR*.
