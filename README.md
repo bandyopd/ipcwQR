@@ -9,7 +9,7 @@ the $p$-dimensional quantile coefficient vector ${\boldsymbol{\beta}}_0(\tau)$
 for some $\tau \in[\tau_L,\tau_R]\subset (0, 1)$ 
 in the following linear quantile regression model:
 
-$T_i = {\bf x}_i^T {\boldsymbol{\beta}}_0(\tau) + e_i(\tau),\quad i=1, \ldots ,n, $
+$$T_i = {\bf x}_i^T {\boldsymbol{\beta}}_0(\tau) + e_i(\tau),\quad i=1, \ldots ,n, $$
 
 where $e_i(\tau)$ is the random error 
 whose $\tau$ th quantile conditional on 
