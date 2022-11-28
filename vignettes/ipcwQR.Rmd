@@ -64,7 +64,7 @@ picrq() function has the following arguments:
 
 drq() function has the following arguments:
 ```{r}
-# picrq(L=L,R=R,T=T,delta=delta,x=x,tau=tau)
+# dcrq(L=L,R=R,T=T,delta=delta,x=x,tau=tau)
 ```
 
 see the detailed description from help(picrq()) and help(dcrq()).
