@@ -22,10 +22,38 @@ i.e., $T$ is left-censored if $L=0$ and right-censored if $R=\infty$.
 
 
 ## Description
-Vignette is available in [this]([file:///Users/Summer/Downloads/ipcwQR.html](https://github.com/YejiStat/ipcwQR.git)).
+Vignette is available in [here]([file:///Users/Summer/Downloads/ipcwQR.html](https://github.com/YejiStat/ipcwQR.git)).
 
 
+## Usages 
+```{r}
+library(PICBayes)
 
+data("mCRC")
+d = with(data.frame(mCRC), data.frame(L = as.numeric(L),
+                                      R = as.numeric(R),
+                                      U = ifelse(y==0,R,L),
+                                      V = ifelse(y==2,L,R),
+                                      # Cluster weighted data
+                                      # Treatment arm: 0 = FOLFIRI alone, 1 = Panitumumab + FOLFIRI.
+                                      x1= case_when(TRT_C == 0 ~ 0, #Pan et al data
+                                                    TRT_C == 1 ~ 1),
+                                      # Tumor KRAS mutation status: 0 = wild-type, 1 = mutant.
+                                      x2= case_when(KRAS_C == 0 ~ 1,
+                                                    KRAS_C == 1 ~ 0),
+                                      id = as.numeric(SITE),
+                                      y = as.numeric(y),
+                                      delta = case_when(IC == 0 ~ 1,
+                                                        IC == 1 ~ 0)
+));
+L=(log(d$U));R=log(d$V); delta=d$delta
+x = cbind(d$x1,d$x2); id=d$id;  tau=0.3;
+
+ipcwQR::picrq(L,R,delta,x=x,tau=tau)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau, estimation = "dr")
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=id,hlimit=0.9,k=2)
+ipcwQR::picrq(L,R,delta,x=x,tau=tau,id=NULL,hlimit=0.9)
+```
 
 
 ## References
