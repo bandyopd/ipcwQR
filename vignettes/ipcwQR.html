@@ -347,7 +347,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 censoring weighted (IPCW) estimating procedure for censored quantile
 regression when the data are partially interval-censored that include
 doubly-censored (DC) data and partly interval-censored (PIC) and
-possibly correlated within same cluster. Let <span class="math inline">\(T\)</span> and <span class="math inline">\(X\)</span> be the event time of interest and its
+possibly correlated within the same cluster. Let <span class="math inline">\(T\)</span> and <span class="math inline">\(X\)</span> be the event time of interest and its
 related <span class="math inline">\(p\)</span>-vector of covariates,
 respectively. Our main objective is to estimate the <span class="math inline">\(p\)</span>-dimensional quantile coefficient vector
 <span class="math inline">\({\boldsymbol{\beta}}_0(\tau)\)</span> for
@@ -367,32 +367,8 @@ also be viewed as a special case of partly interval-censoring, i.e.,
 <h2>Usages</h2>
 <p>Installation of ipcwQR package can be done by</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo=</span><span class="st">&quot;YejiStat/ipcwQR&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Downloading GitHub repo YejiStat/ipcwQR@HEAD</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   checking <span class="cf">for</span> file ‘<span class="sc">/</span>private<span class="sc">/</span>var<span class="sc">/</span>folders<span class="sc">/</span>kw<span class="sc">/</span>cjk_j16d44bb_tmtfr_dpqk40000gp<span class="sc">/</span>T<span class="sc">/</span>RtmpBnuqqp<span class="sc">/</span>remotes1529561620ea<span class="sc">/</span>YejiStat<span class="sc">-</span>ipcwQR<span class="sc">-</span>f0a075d<span class="sc">/</span>DESCRIPTION’ ...</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>✔  checking <span class="cf">for</span> file ‘<span class="sc">/</span>private<span class="sc">/</span>var<span class="sc">/</span>folders<span class="sc">/</span>kw<span class="sc">/</span>cjk_j16d44bb_tmtfr_dpqk40000gp<span class="sc">/</span>T<span class="sc">/</span>RtmpBnuqqp<span class="sc">/</span>remotes1529561620ea<span class="sc">/</span>YejiStat<span class="sc">-</span>ipcwQR<span class="sc">-</span>f0a075d<span class="sc">/</span>DESCRIPTION’</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>─  preparing ‘ipcwQR’<span class="sc">:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   checking DESCRIPTION meta<span class="sc">-</span>information ...</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>✔  checking DESCRIPTION meta<span class="sc">-</span>information</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>─  checking <span class="cf">for</span> LF line<span class="sc">-</span>endings <span class="cf">in</span> source and make files and shell scripts</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>─  checking <span class="cf">for</span> empty or unneeded directories</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>─  building ‘ipcwQR_0.<span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">9000.</span>tar.gz’</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Skipping install of &#39;ipcwQR&#39; from a github remote, the SHA1 (337268ce) has not changed since last install.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">require</span>(<span class="st">&quot;ipcwQR&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: ipcwQR</span></span></code></pre></div>
 <p>picrq() function has the following arguments:</p>
@@ -506,9 +482,9 @@ al. (2022+).</p>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Intercept 0.3     1.864716 0.328470 0.000000 1.220915 2.508518</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x1        0.3     1.246591 0.314810 0.000038 0.629563 1.863618</span></span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x2        0.3     0.996547 0.426036 0.009665 0.161517 1.831578</span></span></code></pre></div>
-<p>Next, we give illustrative example of the method for the multivariate
-clustered data, by using phase 3 metastatic colorectal cancer clinical
-trial. This dataset is available data(mCRC) in PICBayes package (Pan,
+<p>Next, we apply our proposed method to the multivariate clustered data
+using a phase 3 metastatic colorectal cancer clinical trial. This
+dataset is accessible for data(mCRC) in the PICBayes R package (Pan,
 2021).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PICBayes)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: coda</span></span>

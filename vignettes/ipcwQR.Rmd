@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-`ipcwQR` is the R package to fit a new inverse-probability censoring weighted (IPCW) estimating procedure for censored quantile regression when the data are partially interval-censored that include doubly-censored (DC) data and partly interval-censored (PIC) and possibly correlated within same cluster.
+`ipcwQR` is the R package to fit a new inverse-probability censoring weighted (IPCW) estimating procedure for censored quantile regression when the data are partially interval-censored that include doubly-censored (DC) data and partly interval-censored (PIC) and possibly correlated within the same cluster.
 Let $T$ and $X$ be the event time of interest and its related $p$-vector of covariates, respectively.
 Our main objective is to estimate 
 the $p$-dimensional quantile coefficient vector ${\boldsymbol{\beta}}_0(\tau)$
@@ -138,7 +138,7 @@ dcrq(L,R,T,delta,x,tau,id=id)
 
 
 
-Next, we give illustrative example of the method for the multivariate clustered data, by using phase 3 metastatic colorectal cancer clinical trial. This dataset is available data(mCRC) in PICBayes package (Pan, 2021).
+Next, we apply our proposed method to the multivariate clustered data using a phase 3 metastatic colorectal cancer clinical trial. This dataset is accessible for data(mCRC) in the PICBayes R package (Pan, 2021).
 
 ```{r}
 library(PICBayes)
