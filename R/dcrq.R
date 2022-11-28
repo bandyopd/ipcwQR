@@ -9,7 +9,7 @@ NULL
 #' @param R right-censoring time, having \code{Inf} if right-censored.
 #' @param T exactly observed time.
 #' @param delta censoring indicator, 1: observed; 0: interval-censored.
-#' @param x baseline covariates.
+#' @param x X matrix of baseline covariates.
 #' @param tau quantile level.
 #' @param estimation estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.
 #' @param wttype weight estimating method, default is "param" and Beran's nonparametric KM estimating method as "nonparam".
@@ -21,6 +21,7 @@ NULL
 #'
 #' @return \code{dcrq} returns a data frame containing at least the following components:
 #' \itemize{
+#'   \item \code{tau}: quantile level.
 #'   \item \code{coefficients}: regression estimator.
 #'   \item \code{se}: standard error estimates for \code{est}.
 #'   \item \code{pvalue}: p-value.
@@ -32,6 +33,9 @@ NULL
 #' see Kim et al., (2022+) for detailed method explanation.
 #'
 #' @references
+#' 
+#' Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+#' 
 #' Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 #' 
 #' Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
@@ -55,6 +59,7 @@ NULL
 #'dcrq(L,R,T,delta,x,tau)
 #'dcrq(L,R,T,delta,x,tau,estimation = "dr")
 #'dcrq(L,R,T,delta,x,tau,wttype = "nonparam")
+#'dcrq(L,R,T,delta,x,tau,wttype = "nonparam",hlimit = 0.9)
 #' }
 #' @export
 #'
@@ -88,7 +93,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
     ww
   }
   
-  # h=0.9;
+  # hlimit=0.9;
   Berwtfunc = function(L,R,T,delta,x, hlimit=NULL) {
     library(survival)
     Y=pmin(R,pmax(T,L)); y = Y;  n = length(Y)
@@ -151,14 +156,14 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
     }
     ww
   }
-  
+  # eta=1
   DCrq=function(L,R,T,delta,x,ww,tau){
     Y=pmin(R,pmax(T,L));
     n=length(Y); 
     quantreg::rq((Y)~x, weights = ww*eta, tau = tau)$coef #intc, beta1, beta2
   }
   
-  # Sigma=diag(p)/n; beta=rep(1,3)
+  # Sigma=diag(3)/n; beta=rep(1,3)
   Efunc=function(L,R,T,delta,x,Sigma,beta,tau,ww){
     
     Y=pmin(R,pmax(T,L)); n=length(Y); 
@@ -266,7 +271,7 @@ dcrq=function(L,R,T,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NUL
   }
   
   
-  Y=pmin(R,pmax(T,L)); n=length(Y);  delta=d$delta
+  Y=pmin(R,pmax(T,L)); n=length(Y);
   if(is.null(id)){eta=1}
   else{ci=rep(c(table(id)),c(table(id))); wi=(1/ci); eta=(wi^k)}
   

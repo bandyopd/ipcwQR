@@ -6,12 +6,11 @@ NULL
 #'
 #' @param L left-censoring time, having 0 if left-censored.
 #' @param R right-censoring time, having \code{Inf} if right-censored.
-#' @param T exactly observed time.
 #' @param delta censoring indicator, 1: observed; 0: interval-censored.
 #' @param x X matrix of baseline covariates.
 #' @param tau quantile level.
 #' @param estimation estimating method of partly interval censored, if estimation="dr", doubly robust estimator is estimated.
-#' @param wttype weight estimating method, default is "param".
+#' @param wttype weight estimating method, default is "param" and Beran's nonparametric KM estimating method as "nonparam".
 #' @param hlimit bandwidth value, default is 0.5.
 #' @param id cluster id. If the data does not have clustered structure, set \code{id=NULL}.
 #' @param k index of cluster weight.
@@ -32,6 +31,8 @@ NULL
 #' see Kim et al., (2022+) for detailed method explanation.
 #'
 #' @references
+#' Beran, R. (1981). Nonparametric Regression with Randomly Censored Survival Data. Technical Report, Univ.California, Berkeley.
+#' 
 #' Chiou, S. H., Kang, S. and Yan, J. (2015). Rank-based estimating equations with general weight for accelerated failure time models: an induced smoothing approach. Statistics in Medicine 34(9): 1495–-1510.
 #' 
 #' Kim, Y., Choi, T., Park, S., Choi, S. and Bandyopadhyay, D. (2022+). Inverse weighted quantile regression with partially interval-censored data.
@@ -101,8 +102,8 @@ picrq=function(L,R,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL
     
     Y=pmax(ifelse(delta==0,R,L),1e-8); n=length(Y)
     
-    kml = survfit(Surv(L) ~ 1, d)
-    kmr = survfit(Surv(R) ~ 1, d)
+    kml = survfit(Surv(L) ~ 1)
+    kmr = survfit(Surv(R) ~ 1)
     ww = rep(0,n)
     
     for (i in 1:n) {
@@ -144,8 +145,8 @@ picrq=function(L,R,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL
     
     Y=pmax(ifelse(delta==0,R,L),1e-8); n=length(Y)
     
-    kml = survfit(Surv(L) ~ 1, d)
-    kmr = survfit(Surv(R) ~ 1, d)
+    kml = survfit(Surv(L) ~ 1)
+    kmr = survfit(Surv(R) ~ 1)
     ww = rep(0,n)
     
     for (i in 1:n) {
@@ -164,8 +165,8 @@ picrq=function(L,R,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL
     
     Y=pmax(ifelse(delta==0,R,L),1e-8); n=length(Y)
     
-    kml = survfit(Surv(L) ~ 1, d)
-    kmr = survfit(Surv(R) ~ 1, d)
+    kml = survfit(Surv(L) ~ 1)
+    kmr = survfit(Surv(R) ~ 1)
     ww = rep(0,n)
     
     for (i in 1:n) {
@@ -201,8 +202,8 @@ picrq=function(L,R,delta,x,tau,estimation=NULL,wttype="param",hlimit=0.5,id=NULL
   DREfunc=function(L,R,delta,x,Sigma,beta,tau,ww,wl,wr){
     Y=pmax(ifelse(delta==0,R,L),1e-8); n=length(Y)
     n=length(Y); 
-    ndelta=sum(ifelse(delta==1,1,0))
-    ndelta=ifelse(ndelta==0,1,ndelta)
+    ndelta2=sum(ifelse(delta==1,1,0))
+    ndelta=ifelse(ndelta2==0,1,ndelta2)
     xx = as.matrix(cbind(1,x)); p = ncol(xx)
     ss = sqrt( pmax(1e-3, diag(xx%*%Sigma%*%t(xx))) ) 
     res = as.numeric(Y - xx%*%beta)
